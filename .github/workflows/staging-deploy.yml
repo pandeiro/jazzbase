@@ -44,7 +44,7 @@ jobs:
         
         echo "🚀 Deploying to staging: $STAGING_PATH"
         ssh ${{ secrets.DEPLOYMENT_USER }}@${{ secrets.DEPLOYMENT_HOST }} "mkdir -p $STAGING_PATH"
-        rsync -avz index.html ${{ secrets.DEPLOYMENT_USER }}@${{ secrets.DEPLOYMENT_HOST }}:$STAGING_PATH
+        rsync -avz dist/ ${{ secrets.DEPLOYMENT_USER }}@${{ secrets.DEPLOYMENT_HOST }}:$STAGING_PATH/
 
     - name: Comment Staging URL
       uses: actions/github-script@v7
