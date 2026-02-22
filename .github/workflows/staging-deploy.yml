@@ -1,0 +1,59 @@
+name: Deploy to Staging
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.DEPLOYMENT_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Dummy Copy
+      run: mkdir dist; cp public/index.html dist/
+
+    - name: Deploy to Staging
+      run: |
+        # Convert production path to staging path by replacing 'www' with 'www-staging'
+        PROD_PATH="${{ secrets.DEPLOYMENT_PATH }}"
+        STAGING_PATH="${PROD_PATH/prod/staging}"
+        
+        # Verify the substitution worked (staging path should be different from prod)
+        if [ "$STAGING_PATH" = "$PROD_PATH" ]; then
+          echo "❌ Error: Could not determine staging path from DEPLOYMENT_PATH"
+          echo "Production path: $PROD_PATH"
+          echo "We don't know how to deploy to this DEPLOYMENT_PATH in staging! Oops!"
+          echo "Expected path to contain 'www' segment for substitution."
+          exit 1
+        fi
+        
+        echo "🚀 Deploying to staging: $STAGING_PATH"
+        ssh ${{ secrets.DEPLOYMENT_USER }}@${{ secrets.DEPLOYMENT_HOST }} "mkdir -p $STAGING_PATH"
+        rsync -avz index.html ${{ secrets.DEPLOYMENT_USER }}@${{ secrets.DEPLOYMENT_HOST }}:$STAGING_PATH
+
+    - name: Comment Staging URL
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const stagingUrl = `https://staging.${{ secrets.DEPLOYMENT_HOST }}`;
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `🚀 **Staging deployment ready!**\n\nPreview your changes at: ${stagingUrl}\n\n*Note: This staging environment will be updated automatically when you push new commits to this PR.*`
+          });

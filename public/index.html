@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jazzbase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            border: 4px solid #fff;
+            margin: 2rem;
+        }
+
+        h1 {
+            font-size: 4rem;
+            letter-spacing: 0.5rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 3px 3px 0 #333;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .divider {
+            width: 100px;
+            height: 4px;
+            background: #fff;
+            margin: 2rem auto;
+        }
+
+        .description {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #000;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .vinyl {
+            width: 150px;
+            height: 150px;
+            border: 8px solid #fff;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle, #000 0%, #000 30%, #fff 30%, #fff 35%, #000 35%);
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .sax-decoration {
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="vinyl"></div>
+
+        <h1>Jazzbase</h1>
+
+        <p class="tagline">~ Where Data Swings ~</p>
+
+        <div class="divider"></div>
+
+        <div class="sax-decoration">🎷</div>
+
+        <p class="description">
+            Step into the smoky lounge of modern data management.
+            Jazzbase brings that cool cat rhythm to your database needs.
+            No fuss, no muss—just smooth operations like a midnight sax solo.
+        </p>
+
+        <div class="divider"></div>
+
+        <a href="#" class="cta-button">Get Started</a>
+
+        <div class="footer">
+            <p>© 1952 Jazzbase Records... er, Databases</p>
+            <p>Est. MMV</p>
+        </div>
+    </div>
+</body>
+</html>
