@@ -21,11 +21,13 @@ jobs:
         ssh-keyscan -H ${{ secrets.DEPLOYMENT_HOST }} >> ~/.ssh/known_hosts
 
     - name: Dummy Copy
-      run: mkdir dist; cp public/index.html dist/
+      run: |
+        mkdir dist
+        cp public/index.html dist/
 
     - name: Deploy to VPS
       run: |
-        rsync -avz dist ${{ secrets.DEPLOYMENT_USER }}@${{ secrets.DEPLOYMENT_HOST }}:${{ secrets.DEPLOYMENT_PATH }}
+        rsync -avz dist/ ${{ secrets.DEPLOYMENT_USER }}@${{ secrets.DEPLOYMENT_HOST }}:${{ secrets.DEPLOYMENT_PATH }}/
 
     - name: Notify deployment success
       run: echo "🚀 Deployment completed successfully!"
